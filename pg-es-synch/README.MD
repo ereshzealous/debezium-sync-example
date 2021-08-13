@@ -12,7 +12,7 @@
 	* Elastic Search.
 	* Kibana.
 
-### ![Solution Overview](1.png)
+### ![Solution Overview](images/1.png)
 
 ## Usage
 ``` shell
