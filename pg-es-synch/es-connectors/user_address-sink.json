@@ -1,0 +1,17 @@
+{
+  "name": "address-elastic-sink",
+  "config": {
+    "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
+    "tasks.max": "1",
+    "topics": "user_address",
+    "connection.url": "http://elastic:9200",
+    "transforms": "unwrap,key",
+    "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
+    "transforms.unwrap.drop.tombstones": "false",
+    "transforms.key.type": "org.apache.kafka.connect.transforms.ExtractField$Key",
+    "transforms.key.field": "id",
+    "key.ignore": "false",
+    "type.name": "user",
+    "behavior.on.null.values": "delete"
+  }
+}
