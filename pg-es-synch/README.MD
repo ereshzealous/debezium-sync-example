@@ -12,7 +12,7 @@
 	* Elastic Search.
 	* Kibana.
 
-### ![Solution Overview](1.png)
+### ![Solution Overview](image/1.png)
 
 ## Usage
 ``` shell
@@ -270,7 +270,7 @@ Instead of CURL commands you can use kibana dev tools to query the indices. Plea
 
 I have used kafdrop to view messages in kafka topics. Please click [here](http://localhost:9100/). Go to users topic and click view messages and then click messages again you will all messages received from DB to kafka topic from kafka connect using debezium.
 
-###  ![View Message](2.png)
+###  ![View Message](image/2.png)
 
 ### Now Let us delete the user and see if that reflects that in elastic search or not
 ``` shell
