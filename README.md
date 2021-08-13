@@ -1,0 +1,1 @@
+# debezium-sync-example
