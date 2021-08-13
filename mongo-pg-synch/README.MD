@@ -134,7 +134,7 @@ The record is modified.
 
 I have used kafdrop to view messages in kafka topics. Please click [here](http://localhost:9100/). Go to users topic and click view messages and then click messages again you will all messages received from DB to kafka topic from kafka connect using debezium.
 
-###  ![View Message](image/2.png)
+###  ![View Message](images/2.png)
 
 ### Now Let us delete the product and see whether it reflects or not in target system
 ``` shell
