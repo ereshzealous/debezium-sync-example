@@ -12,6 +12,8 @@
 	* Elastic Search.
 	* Kibana.
 
+### ![Solution Overview](1.png)
+
 ## Usage
 ``` shell
 export DEBEZIUM_VERSION=1.4 (or latest)
@@ -49,8 +51,9 @@ docker-compose -f docker-compose.yaml exec postgres bash -c 'psql -U $POSTGRES_U
 ```
 ### Verify the content in elastic search index
 ``` shell
-curl http://localhost:9200/users/_search\?pretty                                                                
-
+curl http://localhost:9200/users/_search\?pretty
+```                                                                
+``` json
 {
   "took" : 0,
   "timed_out" : false,
@@ -211,3 +214,56 @@ curl http://localhost:9200/users/_search\?pretty
   }
 }
 ```
+### Now update any record and see if its reflected or not
+``` shell
+docker-compose -f docker-compose.yaml exec postgres bash -c 'psql -U $POSTGRES_USER $POSTGRES_DB'                
+psql (9.6.22)
+Type "help" for help.
+
+user_data=# update users set income=100000 where id = 'd1fc3b0b-bd81-40b9-9976-80ccbc2a64be';
+UPDATE 1
+user_data=#
+```
+Now verify the same in elastic search
+``` shell
+curl -XGET "http://elastic:9200/users/_search" -H 'Content-Type: application/json' -d'{  "query": {    "bool": {      "must": [        {          "match": {            "id.keyword": "d1fc3b0b-bd81-40b9-9976-80ccbc2a64be"          }        }      ]    }  }}'
+```
+``` json
+{
+  "took" : 0,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 1,
+      "relation" : "eq"
+    },
+    "max_score" : 1.9924302,
+    "hits" : [
+      {
+        "_index" : "users",
+        "_type" : "user",
+        "_id" : "d1fc3b0b-bd81-40b9-9976-80ccbc2a64be",
+        "_score" : 1.9924302,
+        "_source" : {
+          "id" : "d1fc3b0b-bd81-40b9-9976-80ccbc2a64be",
+          "email" : "KmbEouQtGd1@yahoo.com",
+          "mobile_number" : "5041015786",
+          "gender" : "Not Disclosed",
+          "income" : 100000,
+          "created_at" : 1628855064301715
+        }
+      }
+    ]
+  }
+}
+
+```
+The income is modified too.
+
+Instead of CURL commands you can use kibana dev tools to query the indices. Please Click [here](http://localhost:5601/app/kibana#/dev_tools/console?_g=()) for the local instance. 
