@@ -12,7 +12,7 @@
 	* Elastic Search.
 	* Kibana.
 
-### ![Solution Overview](images/1.png)
+### ![Solution Overview](1.png)
 
 ## Usage
 ``` shell
@@ -267,3 +267,50 @@ curl -XGET "http://elastic:9200/users/_search" -H 'Content-Type: application/jso
 The income is modified too.
 
 Instead of CURL commands you can use kibana dev tools to query the indices. Please Click [here](http://localhost:5601/app/kibana#/dev_tools/console?_g=()) for the local instance. 
+
+I have used kafdrop to view messages in kafka topics. Please click [here](http://localhost:9100/). Go to users topic and click view messages and then click messages again you will all messages received from DB to kafka topic from kafka connect using debezium.
+
+###  ![View Message](2.png)
+
+### Now Let us delete the user and see if that reflects that in elastic search or not
+``` shell
+user_data=# delete from user_additional_info where user_id = 'd1fc3b0b-bd81-40b9-9976-80ccbc2a64be';
+DELETE 1
+user_data=# delete from user_address where user_id = 'd1fc3b0b-bd81-40b9-9976-80ccbc2a64be';
+DELETE 2
+user_data=# delete from users where id = 'd1fc3b0b-bd81-40b9-9976-80ccbc2a64be';
+DELETE 1
+user_data=#
+```
+Query in Elastic Search
+``` shell
+curl -XGET "http://elastic:9200/users/_search" -H 'Content-Type: application/json' -d'{  "query": {    "bool": {      "must": [        {          "match": {            "id.keyword": "d1fc3b0b-bd81-40b9-9976-80ccbc2a64be"          }        }      ]    }  }}'
+```
+
+``` json
+{
+  "took" : 98,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 1,
+    "successful" : 1,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : {
+      "value" : 0,
+      "relation" : "eq"
+    },
+    "max_score" : null,
+    "hits" : [ ]
+  }
+}
+```
+
+### Stop the services
+``` shell
+docker-compose down --remove-orphans
+```
+ 
+
