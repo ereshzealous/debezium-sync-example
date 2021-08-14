@@ -70,7 +70,7 @@ spare tire | 22.2 | 109 (9 rows)
 
 ### Now Let us add new document on to products
 
-```sql
+```shell
 docker-compose exec mongodb bash -c 'mongo -u $MONGODB_USER -p $MONGODB_PASSWORD --authenticationDatabase admin inventory'
 MongoDB shell version v3.6.23
 connecting to: mongodb://127.0.0.1:27017/inventory?authSource=admin&gssapiServiceName=mongodb
@@ -112,7 +112,7 @@ inventorydb=#
 
 ### Now update the previous record and see if it's reflected or not in target system
 
-```sql
+```shell
 docker-compose exec mongodb bash -c 'mongo -u $MONGODB_USER -p $MONGODB_PASSWORD --authenticationDatabase admin inventory'
 MongoDB shell version v3.6.23
 connecting to: mongodb://127.0.0.1:27017/inventory?authSource=admin&gssapiServiceName=mongodb
@@ -158,7 +158,7 @@ WriteResult({ "nRemoved" : 1 })
 
 ### Query in Postgres to verify
 
-```shell
+```sql
 inventorydb=# select * from products where id=110;
  quantity | name | description | weight | id
 ----------+------+-------------+--------+----
