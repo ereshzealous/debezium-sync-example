@@ -29,13 +29,14 @@ services:
       - kafka
 
   mysql:
-    image: debezium/example-mysql:latest
+    build: ./mysql
+    restart: always
     ports:
       - 3306:3306
     environment:
       - MYSQL_ROOT_PASSWORD=debezium
-      - MYSQL_USER=mysqluser
-      - MYSQL_PASSWORD=mysqlpw
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
 
   postgres:
     image: debezium/postgres:latest
@@ -56,7 +57,7 @@ services:
       - http.host=0.0.0.0
       - transport.host=127.0.0.1
       - xpack.security.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx1524m"
       - discovery.type=single-node
     ulimits:
       memlock:
@@ -68,7 +69,7 @@ services:
     cap_add:
       - IPC_LOCK
     volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data01
+      - elasticsearch-data:/usr/share/elasticsearch/data02
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.3.0

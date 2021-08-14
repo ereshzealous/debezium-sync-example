@@ -1,9 +1,9 @@
 {
-  "name": "jdbc-sink",
+  "name": "ps-geom-sink",
   "config": {
     "connector.class": "io.confluent.connect.jdbc.JdbcSinkConnector",
     "tasks.max": "1",
-    "topics": "customers",
+    "topics": "geom",
     "connection.url": "jdbc:postgresql://postgres:5432/inventoryDB?user=postgres&password=postgres",
     "transforms": "unwrap",
     "transforms.unwrap.type": "io.debezium.transforms.ExtractNewRecordState",
