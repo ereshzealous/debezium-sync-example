@@ -3,7 +3,7 @@
 A docker compose is used to set up the infrastructure needed for the demo:
 
 - Postgres
-- MOngo DB
+- Mongo DB
 - Kafka
   - Zookeeper.
   - Kafka Broker.
