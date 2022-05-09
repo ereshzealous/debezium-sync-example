@@ -1,0 +1,14 @@
+{
+  "name": "customers-mongo-sink",
+  "config": {
+      "connector.class": "com.mongodb.kafka.connect.MongoSinkConnector",
+      "tasks.max": "1",
+      "topics": "customers",
+      "connection.uri": "mongodb://debezium:dbz@mongodb:27017",
+      "database": "inventory",
+      "collection": "customers_1",
+      "writemodel.strategy" : "com.mongodb.kafka.connect.sink.writemodel.strategy.ReplaceOneDefaultStrategy",
+      "mongodb.delete.on.null.values": "true",
+      "change.data.capture.handler" : "com.mongodb.kafka.connect.sink.cdc.debezium.mongodb.MongoDbHandler"
+      }
+}
